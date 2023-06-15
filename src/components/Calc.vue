@@ -5,6 +5,14 @@ const pur_price = ref(450000);
 const down_pmt = ref(10000);
 const down_pct = ref(10);
 const closing_pct = ref(2.0);
+const remodel = ref(5000)
+const setup = ref(2000)
+const furnish = ref(12000)
+const legal = ref(500)
+const int_rate = ref(5.5)
+const loan_term = ref(30)
+const home_ins = ref(200)
+const hoa_fee = ref(125)
 
 function setDown(e) {
   down_pmt.value = (e.target.value * down_pct.value) / 100;
@@ -36,9 +44,9 @@ function makePct(val) {
 <template>
   <div class="grid grid-cols-3">
     <div class="calc">
-      <p>Purchase</p>
+      <p>Purchase & Startup</p>
       <label>Purchase Price </label><br />
-      <input type="number" step="500" v-model="pur_price" @change="setDown" />
+      <input type="number" step="500" v-model="pur_price" @keyup="setDown" @change="setDown" />
       {{ makeCurr(pur_price) }}
       <br />
       <label>Down Payment </label><br />
@@ -56,28 +64,13 @@ function makePct(val) {
       <span>Estimated Closing Costs<br />{{
         makeCurr((closing_pct * pur_price) / 100)
       }}</span>
+      <br />
+      <label>Remodel Costs </label><br />
+      <input type="number" step="100" v-model="remodel" />
+      {{ makeCurr(remodel) }}
     </div>
     <div class="calc">
       <p>Operation</p>
-      <label>Purchase Price </label><br />
-      <input type="number" step="500" v-model="pur_price" @change="setDown" />
-      {{ makeCurr(pur_price) }}
-      <br />
-      <label>Down Payment </label><br />
-      <input type="number" step="50" v-model="down_pmt" @change="setDownPct" />
-      {{ makeCurr(down_pmt) }}
-      <br />
-      <label>Down Payment Percent </label><br />
-      <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
-      {{ makePct(down_pct / 100) }}
-      <br />
-      <label>Estimated Closing Cost Percent </label><br />
-      <input type="number" step="0.25" v-model="closing_pct" />
-      {{ makePct(closing_pct / 100) }}
-      <br />
-      <span>Estimated Closing Costs<br />{{
-        makeCurr((closing_pct * pur_price) / 100)
-      }}</span>
     </div>
     <div class="calc">
       <p>Results</p>
@@ -95,7 +88,7 @@ input {
   margin: 1rem 0;
   border: 1px solid rgb(29, 29, 29);
   background-color: rgb(250, 250, 250);
-  padding: 1rem; 
+  padding: 1rem;
   border-radius: 10px;
   max-width: 350px;
 }
