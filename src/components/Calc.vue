@@ -88,16 +88,15 @@ function makePct(val) {
 <style>
 input {
   width: 5rem;
-  border-color: blue;
 }
 
 .calc {
   line-height: 1.6;
   margin: 1rem 0;
-  border: 1px solid rgba(var(--accent), 25%);
+  border: 1px solid rgb(29, 29, 29);
   background-color: rgb(250, 250, 250);
-  padding: 1rem;
-  border-radius: 0.4rem;
+  padding: 1rem; 
+  border-radius: 10px;
   max-width: 350px;
 }
 </style>
