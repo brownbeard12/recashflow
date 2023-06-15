@@ -34,26 +34,54 @@ function makePct(val) {
 </script>
 
 <template>
-  <div class="calc">
-    <label>Purchase Price </label><br />
-    <input type="number" step="500" v-model="pur_price" @change="setDown" />
-    {{ makeCurr(pur_price) }}
-    <br />
-    <label>Down Payment </label><br />
-    <input type="number" step="50" v-model="down_pmt" @change="setDownPct" />
-    {{ makeCurr(down_pmt) }}
-    <br />
-    <label>Down Payment Percent </label><br />
-    <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
-    {{ makePct(down_pct / 100) }}
-    <br />
-    <label>Estimated Closing Cost Percent </label><br />
-    <input type="number" step="0.25" v-model="closing_pct" />
-    {{ makePct(closing_pct / 100) }}
-    <br />
-    <span>Estimated Closing Costs<br />{{
-      makeCurr((closing_pct * pur_price) / 100)
-    }}</span>
+  <div class="grid grid-cols-3">
+    <div class="calc">
+      <p>Purchase</p>
+      <label>Purchase Price </label><br />
+      <input type="number" step="500" v-model="pur_price" @change="setDown" />
+      {{ makeCurr(pur_price) }}
+      <br />
+      <label>Down Payment </label><br />
+      <input type="number" step="50" v-model="down_pmt" @change="setDownPct" />
+      {{ makeCurr(down_pmt) }}
+      <br />
+      <label>Down Payment Percent </label><br />
+      <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
+      {{ makePct(down_pct / 100) }}
+      <br />
+      <label>Estimated Closing Cost Percent </label><br />
+      <input type="number" step="0.25" v-model="closing_pct" />
+      {{ makePct(closing_pct / 100) }}
+      <br />
+      <span>Estimated Closing Costs<br />{{
+        makeCurr((closing_pct * pur_price) / 100)
+      }}</span>
+    </div>
+    <div class="calc">
+      <p>Operation</p>
+      <label>Purchase Price </label><br />
+      <input type="number" step="500" v-model="pur_price" @change="setDown" />
+      {{ makeCurr(pur_price) }}
+      <br />
+      <label>Down Payment </label><br />
+      <input type="number" step="50" v-model="down_pmt" @change="setDownPct" />
+      {{ makeCurr(down_pmt) }}
+      <br />
+      <label>Down Payment Percent </label><br />
+      <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
+      {{ makePct(down_pct / 100) }}
+      <br />
+      <label>Estimated Closing Cost Percent </label><br />
+      <input type="number" step="0.25" v-model="closing_pct" />
+      {{ makePct(closing_pct / 100) }}
+      <br />
+      <span>Estimated Closing Costs<br />{{
+        makeCurr((closing_pct * pur_price) / 100)
+      }}</span>
+    </div>
+    <div class="calc">
+      <p>Results</p>
+    </div>
   </div>
 </template>
 
@@ -70,5 +98,6 @@ input {
   background-color: rgb(250, 250, 250);
   padding: 1rem;
   border-radius: 0.4rem;
+  max-width: 350px;
 }
 </style>
