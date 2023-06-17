@@ -71,6 +71,8 @@ function makePct(val) {
     </div>
     <div class="calc">
       <p>Operation</p>
+
+
     </div>
     <div class="calc">
       <p>Results</p>
