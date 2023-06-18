@@ -1,10 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const pur_price = ref(450000);
-const down_pmt = ref(10000);
+const down_pmt = ref(45000);
 const down_pct = ref(10);
 const closing_pct = ref(2.0);
+const loan_amt = computed(() => {
+  return pur_price.value - down_pmt.value
+})
 const remodel = ref(5000)
 const setup = ref(2000)
 const furnish = ref(12000)
@@ -13,9 +16,13 @@ const int_rate = ref(5.5)
 const loan_term = ref(30)
 const home_ins = ref(200)
 const hoa_fee = ref(125)
+const pi_pmt = computed(() => {
+  return (int_rate.value / 1200 * loan_amt.value) / (1 - (1 + int_rate.value / 1200) ** (-12 * loan_term.value))
+})
 
 function setDown(e) {
   down_pmt.value = (e.target.value * down_pct.value) / 100;
+
 }
 
 function setDownPmt(e) {
@@ -42,9 +49,10 @@ function makePct(val) {
 </script>
 
 <template>
-  <div class="grid grid-cols-3">
+  <div class="grid grid-cols-1 md:grid-cols-3">
     <div class="calc">
       <p>Purchase & Startup</p>
+      <p>Inputs</p>
       <label>Purchase Price </label><br />
       <input type="number" step="500" v-model="pur_price" @keyup="setDown" @change="setDown" />
       {{ makeCurr(pur_price) }}
@@ -57,6 +65,10 @@ function makePct(val) {
       <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
       {{ makePct(down_pct / 100) }}
       <br />
+      <span>Loan Amount<br />{{
+        makeCurr(loan_amt)
+      }}</span>
+      <br />
       <label>Estimated Closing Cost Percent </label><br />
       <input type="number" step="0.25" v-model="closing_pct" />
       {{ makePct(closing_pct / 100) }}
@@ -68,9 +80,17 @@ function makePct(val) {
       <label>Remodel Costs </label><br />
       <input type="number" step="100" v-model="remodel" />
       {{ makeCurr(remodel) }}
+      <br />
+      <label>Mortgage Interest Rate </label><br />
+      <input type="number" step="0.125" v-model="int_rate" />
+      {{ makePct(int_rate / 100) }}
+      <br>
+      <span>Principal & Interest Payment<br />{{ makeCurr(pi_pmt)
+      }}</span>
     </div>
     <div class="calc">
       <p>Operation</p>
+
 
 
     </div>
@@ -92,6 +112,6 @@ input {
   background-color: rgb(250, 250, 250);
   padding: 1rem;
   border-radius: 10px;
-  max-width: 350px;
+  max-width: 300px;
 }
 </style>
