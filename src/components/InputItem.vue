@@ -7,8 +7,9 @@ defineEmits(['update:modelValue'])
 <template>
     <div>
         <p><label>{{ label }}</label></p>
-        <p><input type="number" :step="numSteps" :value="modelValue"
-                @input="$emit('update:modelValue', $event.target.value)" /></p>
-        <slot></slot>
+        <p><input type="number" min=0 :step="numSteps" :value="modelValue"
+                @input="$emit('update:modelValue', $event.target.value)" />
+            <slot></slot>
+        </p>
     </div>
 </template>

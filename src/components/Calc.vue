@@ -26,6 +26,26 @@ const purchaseInputs = ref([{
   amount: 2,
   format: makePct,
 }, {
+  label: 'Interest Rate',
+  step: 0.125,
+  amount: 5,
+  format: makePct,
+}, {
+  label: 'Loan Term',
+  step: 5,
+  amount: 30,
+  format: hold,
+}, {
+  label: 'Home Insurance',
+  step: 25,
+  amount: 200,
+  format: makeCurr,
+}, {
+  label: 'HOA Fee',
+  step: 5,
+  amount: 100,
+  format: makeCurr,
+}, {
   label: 'Remodel Costs',
   step: 100,
   amount: 5000,
@@ -40,9 +60,12 @@ const purchaseInputs = ref([{
   step: 250,
   amount: 10000,
   format: makeCurr,
+}, {
+  label: 'Legal Fees',
+  step: 50,
+  amount: 500,
+  format: makeCurr,
 },
-
-
 ])
 
 const pur_price = ref(450000);
@@ -92,6 +115,10 @@ function makePct(val) {
     style: "percent",
     minimumFractionDigits: 2,
   }).format(val / 100);
+}
+
+function hold(val) {
+  return val
 }
 </script>
 
