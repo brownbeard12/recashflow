@@ -6,11 +6,21 @@ const model = ref([{
   label: 'Purchase Price',
   step: 500,
   amount: 450000,
+  function: setDown,
+  format: makeCurr,
 }, {
   label: 'Down Payment',
   step: 500,
   amount: 45000,
-},
+  function: setDownPct,
+  format: makeCurr,
+}, {
+  label: 'Down Payment Percent',
+  step: 0.25,
+  amount: 10,
+  function: setDownPmt,
+  format: makePct,
+}
 ])
 
 const pur_price = ref(450000);
@@ -34,16 +44,18 @@ const pi_pmt = computed(() => {
 })
 
 function setDown(e) {
-  down_pmt.value = (e.target.value * down_pct.value) / 100;
-
+  //down_pmt.value = (e.target.value * down_pct.value) / 100;
+  model.value[1].amount = (e.target.value * model.value[2].amount) / 100;
 }
 
 function setDownPmt(e) {
-  down_pmt.value = (e.target.value * pur_price.value) / 100;
+  //down_pmt.value = (e.target.value * pur_price.value) / 100;
+  model.value[1].amount = (e.target.value * model.value[0].amount) / 100;
 }
 
 function setDownPct(e) {
-  down_pct.value = ((e.target.value / pur_price.value) * 100).toFixed(2);
+  //down_pct.value = ((e.target.value / pur_price.value) * 100).toFixed(2);
+  model.value[2].amount = ((e.target.value / model.value[0].amount) * 100).toFixed(2);
 }
 
 function makeCurr(val) {
@@ -57,7 +69,7 @@ function makePct(val) {
   return new Intl.NumberFormat("en-US", {
     style: "percent",
     minimumFractionDigits: 2,
-  }).format(val);
+  }).format(val / 100);
 }
 </script>
 
@@ -101,11 +113,8 @@ function makePct(val) {
     <div class="calc">
       <p>Operation</p>
       <div v-for="item in model" :key="item.label">
-        <InputItem
-        :label="item.label"
-        :step="item.step"
-        >
-        {{ makeCurr(item.amount) }}
+        <InputItem :label="item.label" :numSteps="item.step" v-model="item.amount" @change="item.function">
+          {{ item.format(item.amount) }}
         </InputItem>
       </div>
 
