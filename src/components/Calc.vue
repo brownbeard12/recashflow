@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import InputItem from "./InputItem.vue";
 
-const model = ref([{
+const purchaseInputs = ref([{
   label: 'Purchase Price',
   step: 500,
   amount: 450000,
@@ -20,7 +20,29 @@ const model = ref([{
   amount: 10,
   function: setDownPmt,
   format: makePct,
-}
+}, {
+  label: 'Estimated Closing Cost Percent',
+  step: 0.25,
+  amount: 2,
+  format: makePct,
+}, {
+  label: 'Remodel Costs',
+  step: 100,
+  amount: 5000,
+  format: makeCurr,
+}, {
+  label: 'Setup Costs',
+  step: 100,
+  amount: 1000,
+  format: makeCurr,
+}, {
+  label: 'Furnishings',
+  step: 250,
+  amount: 10000,
+  format: makeCurr,
+},
+
+
 ])
 
 const pur_price = ref(450000);
@@ -45,17 +67,17 @@ const pi_pmt = computed(() => {
 
 function setDown(e) {
   //down_pmt.value = (e.target.value * down_pct.value) / 100;
-  model.value[1].amount = (e.target.value * model.value[2].amount) / 100;
+  purchaseInputs.value[1].amount = (e.target.value * purchaseInputs.value[2].amount) / 100;
 }
 
 function setDownPmt(e) {
   //down_pmt.value = (e.target.value * pur_price.value) / 100;
-  model.value[1].amount = (e.target.value * model.value[0].amount) / 100;
+  purchaseInputs.value[1].amount = (e.target.value * purchaseInputs.value[0].amount) / 100;
 }
 
 function setDownPct(e) {
   //down_pct.value = ((e.target.value / pur_price.value) * 100).toFixed(2);
-  model.value[2].amount = ((e.target.value / model.value[0].amount) * 100).toFixed(2);
+  purchaseInputs.value[2].amount = ((e.target.value / purchaseInputs.value[0].amount) * 100).toFixed(2);
 }
 
 function makeCurr(val) {
@@ -112,15 +134,11 @@ function makePct(val) {
     </div>
     <div class="calc">
       <p>Operation</p>
-      <div v-for="item in model" :key="item.label">
+      <div v-for="item in purchaseInputs" :key="item.label">
         <InputItem :label="item.label" :numSteps="item.step" v-model="item.amount" @change="item.function">
           {{ item.format(item.amount) }}
         </InputItem>
       </div>
-
-
-
-
     </div>
     <div class="calc">
       <p>Results</p>
