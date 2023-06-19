@@ -2,6 +2,17 @@
 import { computed, ref } from "vue";
 import InputItem from "./InputItem.vue";
 
+const model = ref([{
+  label: 'Purchase Price',
+  step: 500,
+  amount: 450000,
+}, {
+  label: 'Down Payment',
+  step: 500,
+  amount: 45000,
+},
+])
+
 const pur_price = ref(450000);
 const down_pmt = ref(45000);
 const down_pct = ref(10);
@@ -89,6 +100,15 @@ function makePct(val) {
     </div>
     <div class="calc">
       <p>Operation</p>
+      <div v-for="item in model" :key="item.label">
+        <InputItem
+        :label="item.label"
+        :step="item.step"
+        >
+        {{ makeCurr(item.amount) }}
+        </InputItem>
+      </div>
+
 
 
 
