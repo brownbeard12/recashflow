@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from "vue";
+import InputItem from "./InputItem.vue";
 
 const pur_price = ref(450000);
 const down_pmt = ref(45000);
 const down_pct = ref(10);
+const down_pmt2 = ref(5000)
 const closing_pct = ref(2.0);
 const loan_amt = computed(() => {
   return pur_price.value - down_pmt.value
@@ -56,15 +58,12 @@ function makePct(val) {
       <label>Purchase Price </label><br />
       <input type="number" step="500" v-model="pur_price" @keyup="setDown" @change="setDown" />
       {{ makeCurr(pur_price) }}
-      <br />
-      <label>Down Payment </label><br />
-      <input type="number" step="50" v-model="down_pmt" @change="setDownPct" />
-      {{ makeCurr(down_pmt) }}
-      <br />
-      <label>Down Payment Percent </label><br />
-      <input type="number" step="0.25" v-model="down_pct" @change="setDownPmt" />
-      {{ makePct(down_pct / 100) }}
-      <br />
+      <InputItem label="Down Payment" numSteps="500" v-model="down_pmt" @change="setDownPct">
+        {{ makeCurr(down_pmt) }}
+      </InputItem>
+      <InputItem label="Down Payment Percent" numSteps="0.25" v-model="down_pct" @change="setDownPmt">
+        {{ makePct(down_pct / 100) }}
+      </InputItem>
       <span>Loan Amount<br />{{
         makeCurr(loan_amt)
       }}</span>
