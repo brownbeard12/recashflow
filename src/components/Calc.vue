@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import InputItem from "./InputItem.vue";
+import OutputItem from "./OutputItem.vue"
 
 const purchaseInputs = ref([{
   label: 'Purchase Price',
@@ -68,6 +69,31 @@ const purchaseInputs = ref([{
 },
 ])
 
+const purchaseComp = computed(() => {
+  return [
+    {
+      label: 'Closing Costs',
+      amount: purchaseInputs.value[0].amount * purchaseInputs.value[3].amount / 100,
+    }, {
+      label: 'Loan Amount',
+      amount: purchaseInputs.value[0].amount - purchaseInputs.value[1].amount,
+    },
+  ]
+})
+
+const purchaseOutputs = computed(() => {
+  return [
+    {
+      label: 'Estimated Cash to Close',
+      amount: Number(purchaseInputs.value[1].amount) + Number(purchaseComp.value[0].amount),
+    }, {
+      label: 'Principal & Interest Payment',
+      amount: (purchaseInputs.value[4].amount / 1200 * purchaseComp.value[1].amount) / (1 - (1 + purchaseInputs.value[4].amount / 1200) ** (-12 * purchaseInputs.value[5].amount)),
+    },
+  ]
+})
+
+
 const pur_price = ref(450000);
 const down_pmt = ref(45000);
 const down_pct = ref(10);
@@ -127,45 +153,30 @@ function hold(val) {
     <div class="calc">
       <p>Purchase & Startup</p>
       <p>Inputs</p>
-      <label>Purchase Price </label><br />
-      <input type="number" step="500" v-model="pur_price" @keyup="setDown" @change="setDown" />
-      {{ makeCurr(pur_price) }}
-      <InputItem label="Down Payment" numSteps="500" v-model="down_pmt" @change="setDownPct">
-        {{ makeCurr(down_pmt) }}
-      </InputItem>
-      <InputItem label="Down Payment Percent" numSteps="0.25" v-model="down_pct" @change="setDownPmt">
-        {{ makePct(down_pct / 100) }}
-      </InputItem>
-      <span>Loan Amount<br />{{
-        makeCurr(loan_amt)
-      }}</span>
-      <br />
-      <label>Estimated Closing Cost Percent </label><br />
-      <input type="number" step="0.25" v-model="closing_pct" />
-      {{ makePct(closing_pct / 100) }}
-      <br />
-      <span>Estimated Closing Costs<br />{{
-        makeCurr((closing_pct * pur_price) / 100)
-      }}</span>
-      <br />
-      <label>Remodel Costs </label><br />
-      <input type="number" step="100" v-model="remodel" />
-      {{ makeCurr(remodel) }}
-      <br />
-      <label>Mortgage Interest Rate </label><br />
-      <input type="number" step="0.125" v-model="int_rate" />
-      {{ makePct(int_rate / 100) }}
-      <br>
-      <span>Principal & Interest Payment<br />{{ makeCurr(pi_pmt)
-      }}</span>
-    </div>
-    <div class="calc">
-      <p>Operation</p>
+
       <div v-for="item in purchaseInputs" :key="item.label">
         <InputItem :label="item.label" :numSteps="item.step" v-model="item.amount" @change="item.function">
           {{ item.format(item.amount) }}
         </InputItem>
       </div>
+
+      <p>Outputs</p>
+
+      <div v-for="item in purchaseComp" :key="item.label">
+        <OutputItem :label="item.label">
+          {{ makeCurr(item.amount) }}
+        </OutputItem>
+      </div>
+
+      <div v-for="item in purchaseOutputs" :key="item.label">
+        <OutputItem :label="item.label">
+          {{ makeCurr(item.amount) }}
+        </OutputItem>
+      </div>
+      
+    </div>
+    <div class="calc">
+      <p>Operation</p>
     </div>
     <div class="calc">
       <p>Results</p>
