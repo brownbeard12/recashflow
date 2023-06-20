@@ -42,6 +42,11 @@ const purchaseInputs = ref([{
   amount: 200,
   format: makeCurr,
 }, {
+  label: 'Taxes',
+  step: 5,
+  amount: 200,
+  format: makeCurr,
+}, {
   label: 'HOA Fee',
   step: 5,
   amount: 100,
@@ -89,6 +94,15 @@ const purchaseOutputs = computed(() => {
     }, {
       label: 'Principal & Interest Payment',
       amount: (purchaseInputs.value[4].amount / 1200 * purchaseComp.value[1].amount) / (1 - (1 + purchaseInputs.value[4].amount / 1200) ** (-12 * purchaseInputs.value[5].amount)),
+    },
+  ]
+})
+
+const monthlyPayment = computed(() => {
+  return [
+    {
+      label: 'Monthly Payment',
+      amount: Number(purchaseOutputs.value[1].amount) + Number(purchaseInputs.value[6].amount) + Number(purchaseInputs.value[7].amount) + Number(purchaseInputs.value[8].amount),
     },
   ]
 })
@@ -173,7 +187,13 @@ function hold(val) {
           {{ makeCurr(item.amount) }}
         </OutputItem>
       </div>
-      
+
+      <div v-for="item in monthlyPayment" :key="item.label">
+        <OutputItem :label="item.label">
+          {{ makeCurr(item.amount) }}
+        </OutputItem>
+      </div>
+
     </div>
     <div class="calc">
       <p>Operation</p>
