@@ -35,7 +35,7 @@ const purchaseInputs = ref([{
   label: 'Loan Term',
   step: 5,
   amount: 30,
-  format: hold,
+  format: year,
 }, {
   label: 'Home Insurance',
   step: 25,
@@ -159,6 +159,10 @@ function makePct(val) {
 
 function hold(val) {
   return val
+}
+
+function year(val) {
+  return val + ' years'
 }
 </script>
 
