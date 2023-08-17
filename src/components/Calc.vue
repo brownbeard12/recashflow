@@ -107,6 +107,29 @@ const monthlyPayment = computed(() => {
   ]
 })
 
+const opInputs = ref([{
+  label: 'Average Daily Rate',
+  step: 5,
+  amount: 150,
+  format: makeCurr,
+}, {
+  label: 'Occupancy Rate',
+  step: 0.5,
+  amount: 75,
+  format: makePct,
+},
+
+])
+
+const opOutputs = computed(() => {
+  return [
+    {
+      label: 'Annual Gross Revenue',
+      amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * 365,
+    }, 
+  ]
+})
+
 
 const pur_price = ref(450000);
 const down_pmt = ref(45000);
@@ -201,6 +224,22 @@ function year(val) {
     </div>
     <div class="calc">
       <p>Operation</p>
+      <p>Inputs</p>
+
+      <div v-for="item in opInputs" :key="item.label">
+        <InputItem :label="item.label" :numSteps="item.step" v-model="item.amount" @change="item.function">
+          {{ item.format(item.amount) }}
+        </InputItem>
+      </div>
+
+      <p>Outputs</p>
+
+      <div v-for="item in opOutputs" :key="item.label">
+        <OutputItem :label="item.label">
+          {{ makeCurr(item.amount) }}
+        </OutputItem>
+      </div>
+
     </div>
     <div class="calc">
       <p>Results</p>
