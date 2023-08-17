@@ -115,9 +115,35 @@ const opInputs = ref([{
 }, {
   label: 'Occupancy Rate',
   step: 0.5,
-  amount: 75,
+  amount: 60,
   format: makePct,
+}, {
+  label: 'Number of Units',
+  step: 1,
+  amount: 1,
+  format: hold,
 },
+{
+  label: 'Platform Fees',
+  step: 0.25,
+  amount: 3,
+  format: makePct,
+}, {
+  label: 'Maintenance Cost Percentage',
+  step: 0.5,
+  amount: 3,
+  format: makePct,
+}, {
+  label: 'Utilities',
+  step: 25,
+  amount: 300,
+  format: makeCurr,
+}, {
+  label: 'Management Fee Percentage',
+  step: 0.25,
+  amount: 20,
+  format: makePct,
+}, 
 
 ])
 
@@ -125,31 +151,11 @@ const opOutputs = computed(() => {
   return [
     {
       label: 'Annual Gross Revenue',
-      amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * 365,
-    }, 
+      amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * Number(opInputs.value[2].amount) * 365,
+    },
   ]
 })
 
-
-const pur_price = ref(450000);
-const down_pmt = ref(45000);
-const down_pct = ref(10);
-const down_pmt2 = ref(5000)
-const closing_pct = ref(2.0);
-const loan_amt = computed(() => {
-  return pur_price.value - down_pmt.value
-})
-const remodel = ref(5000)
-const setup = ref(2000)
-const furnish = ref(12000)
-const legal = ref(500)
-const int_rate = ref(5.5)
-const loan_term = ref(30)
-const home_ins = ref(200)
-const hoa_fee = ref(125)
-const pi_pmt = computed(() => {
-  return (int_rate.value / 1200 * loan_amt.value) / (1 - (1 + int_rate.value / 1200) ** (-12 * loan_term.value))
-})
 
 function setDown(e) {
   //down_pmt.value = (e.target.value * down_pct.value) / 100;
