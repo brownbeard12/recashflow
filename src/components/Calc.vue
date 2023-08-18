@@ -143,7 +143,7 @@ const opInputs = ref([{
   step: 0.25,
   amount: 20,
   format: makePct,
-}, 
+},
 
 ])
 
@@ -153,6 +153,15 @@ const opOutputs = computed(() => {
       label: 'Annual Gross Revenue',
       amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * Number(opInputs.value[2].amount) * 365,
     },
+    {
+      label: 'Annual Maintenance Costs',
+      amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * Number(opInputs.value[2].amount) * Number(opInputs.value[4].amount / 100) * 365,
+    },
+    {
+      label: 'Annual Management Fees',
+      amount: Number(opInputs.value[0].amount) * Number(opInputs.value[1].amount / 100) * Number(opInputs.value[2].amount) * Number(opInputs.value[6].amount / 100) * 365,
+    },
+    
   ]
 })
 
